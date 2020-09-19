@@ -80,7 +80,6 @@ export default {
               console.log(error);
             }
           }
-          return (this.wxList = [{}]);
         })
         .catch((err) => {
           this.$message.error(err.response.data);
@@ -122,19 +121,20 @@ export default {
     },
     // 上传成功
     onSuccess(index) {
-      return (url) => {
+      return (res) => {
+        this.loading.close();
+        let url = res.data;
+        this.wxList[index].qr_url = url;
         this.$message({
           message: "上传成功",
           type: "success",
         });
-        this.wxList[index].qr_url = url;
-        this.loading.close();
       };
     },
     // 上传失败
     onError(err) {
-      this.$message.error(err.response.data);
       this.loading.close();
+      this.$message.error(err.response.data);
     },
     // 上传时候
     onProgress() {
@@ -148,14 +148,7 @@ export default {
       onProgress("");
       let formData = new FormData(); //new一个formData事件
       formData.append(filename, file); //将file属性添加到formData里 //此时formData就是我们要向后台传的参数了
-      this.$axios
-        .post(action, formData)
-        .then((res) => {
-          onSuccess(res.data);
-        })
-        .catch((err) => {
-          onError(err);
-        });
+      this.$axios.post(action, formData).then(onSuccess, onError);
     },
   },
 };

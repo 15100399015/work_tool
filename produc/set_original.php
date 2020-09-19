@@ -1,22 +1,17 @@
 <?php
-error_reporting(0);
-header('Content-Type: text/html;charset=utf-8');
-header('Access-Control-Allow-Origin:*'); // *代表允许任何网址请求
-header('Access-Control-Allow-Methods:POST,OPTIONS'); // 允许请求的类型
-header('Access-Control-Allow-Credentials: true'); // 设置是否允许发送 cookies
-header('Access-Control-Allow-Headers: Content-Type,Content-Length,Accept-Encoding,X-Requested-with, Origin'); // 设置允许自定义请求头的字段
-
-function is_get()
-{
-    return $_SERVER['REQUEST_METHOD'] == 'GET' ? true : false;
-}
-
+header("Content-type: text/plain; charset=utf-8");
 function is_post()
 {
     return $_SERVER['REQUEST_METHOD'] == 'POST' ? true : false;
 }
+function is_json($string)
+{
+    json_decode($string);
+    return (json_last_error() == JSON_ERROR_NONE);
+}
 
 if (is_post()) {
+    // 验证传毒的字符串
     $weixin = post_input($_POST['weixin']);
     if (isset($weixin)) {
         $file = "weixin.txt";
@@ -45,5 +40,16 @@ if (is_post()) {
 //过滤提交信息;
 function post_input($data)
 {
-    return $data;
+    // 去除空白字符
+    trim($data);
+    // 判断是不是一个合法的json数组
+    if (
+        (strpos($data, "[") == 0)
+        &&
+        is_json($data)
+    ) {
+        return $data;
+    } else {
+        return NULL;
+    }
 }
