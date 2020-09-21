@@ -45,6 +45,7 @@
 </template>
 
 <script>
+import Cookie from "js-cookie";
 export default {
   name: "App",
   data() {
@@ -150,6 +151,13 @@ export default {
       formData.append(filename, file); //将file属性添加到formData里 //此时formData就是我们要向后台传的参数了
       this.$axios.post(action, formData).then(onSuccess, onError);
     },
+  },
+  mounted() {
+    // 检查是否存在cookie
+    // 如果不存在则写入cookie
+    if (!Cookie.get("_userlogin")) {
+      Cookie.set("_userlogin", "true", { expires: 7 });
+    }
   },
 };
 </script>
