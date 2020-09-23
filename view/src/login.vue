@@ -1,6 +1,7 @@
 <template>
   <div class="registerBox">
     <div style="width:360px">
+      <h1 style="text-align:center">Lingx换号</h1>
       <el-form :model="loginForm" ref="loginForm" label-width="46px">
         <el-form-item label="账号" prop="username">
           <el-input type="text" v-model="loginForm.username"></el-input>
