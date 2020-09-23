@@ -1,5 +1,5 @@
 <template>
-  <div style="width:890px;margin:0 auto">
+  <div class="toolBox">
     <div>
       <el-button type="primary" @click="addItem">添加</el-button>
     </div>
@@ -152,5 +152,10 @@ export default {
 };
 </script>
 
-<style>
+
+<style lang="css" scoped>
+.toolBox {
+  width: 890px;
+  margin: 15px auto;
+}
 </style>
