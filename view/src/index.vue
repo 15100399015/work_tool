@@ -18,7 +18,6 @@ export default {
     };
   },
   mounted() {
-    // 获取cookie，如果存在则说明之前登录过，直接跳到app
     if (Cookie.get("_userlogin")) this.LogIn = true;
   },
 };
